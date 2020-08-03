@@ -35,7 +35,7 @@ function moveBall(){
         clearTimeout(dt);
         return
     };
-    var skip=balls[length-1].held;
+    var skip=balls[balls.length-1].held;
     //loop over all balls
     for (i=0;i<loopsize-skip;i++){
     
@@ -70,7 +70,7 @@ function moveBall(){
     }
 
     if(skip){
-        drawBall(balls[balls.length-1]);
+        drawBall(balls[length-1])
     }
 
     dt=window.setTimeout(moveBall,1000/30);
@@ -118,42 +118,44 @@ function mouseRelease(e){
     clicked=0;
     //check for ballinlimbo and append to balls
     if (ballinlimbo !== undefined){
+        balls.push(ballinlimbo);
         balls[balls.length-1].held=0;
     }
 
+    if (!wemovin){
+        wemovin=1;
+        moveBall();
+    }
 }
 
 function mouseClick(){
     //Should be autimatically added to BALLS, But position should stay lined to mouse. 
-    ballinlimbo = {x:mousex,y:mousey,vx:0,vy:0,hexcol:"red", size:ballsize,held=1};
-    balls.push(ballinlimbo);
+    ballinlimbo = {x:mousex,y:mousey,vx:0,vy:0,hexcol:"red", size:ballsize,held:1};
     launchmousex=mousex;
     launchmousey=mousey;
     clicked=1;
-    wemovin=1;
-    moveBall();
 }
 
 function mouseMove(e){
     
-    //update balls (last) if not launched.
     mousex=e.offsetX;
     mousey=e.offsetY;
    
-    //if(clicked){
-    //    clearFrame();
-  //      ballinlimbo.x=mousex;
-//        ballinlimbo.y=mousey;
-      //  drawBall(ballinlimbo);
-    //    ballinlimbo.vx=launchmousex-mousex;
-  //      ballinlimbo.vy=launchmousey-mousey;
-//        simcontext.setLineDash([5, 3]);
-       // simcontext.beginPath();
-     //   simcontext.moveTo(launchmousex, launchmousey);
-   //     simcontext.lineTo(mousex, mousey);
-       // simcontext.stroke();
-     //   simcontext.closePath();
-   //}
+    if(clicked){
+    if(!wemovin){
+    clearFrame();}
+    ballinlimbo.x=mousex;
+    ballinlimbo.y=mousey;
+    drawBall(ballinlimbo);
+    ballinlimbo.vx=launchmousex-mousex;
+    ballinlimbo.vy=launchmousey-mousey;
+    simcontext.setLineDash([5, 3]);
+    simcontext.beginPath();
+    simcontext.moveTo(launchmousex, launchmousey);
+    simcontext.lineTo(mousex, mousey);
+    simcontext.stroke();
+    simcontext.closePath();
+    }
 }
 
 
@@ -182,8 +184,6 @@ function init(){
     gravityslide.addEventListener("mouseup", readBallSize, false);
 
     balls= new Array();
-    //balls= new Array({x:simulation.width/2,y:simulation.height/2,vx:(Math.random()-.5)*100,vy:(Math.random()-.5)*100,hexcol:"red", size:10, launched:1});
-    //moveBall();
 }
 
 function readGrav(e){
