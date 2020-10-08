@@ -142,8 +142,7 @@ function mouseMove(e){
     mousey=e.offsetY;
    
     if(clicked){
-    if(!wemovin){
-    clearFrame();}
+    if(!wemovin){clearFrame();}
     ballinlimbo.x=mousex;
     ballinlimbo.y=mousey;
     drawBall(ballinlimbo);
@@ -178,10 +177,13 @@ function init(){
 
     gravityslide=document.getElementById("gravity");
     gravityslide.addEventListener("mouseup", readGrav, false);
-    gravityslide=document.getElementById("elasticity");
-    gravityslide.addEventListener("mouseup", readElast, false);
-    gravityslide=document.getElementById("ballsize");
-    gravityslide.addEventListener("mouseup", readBallSize, false);
+    elastslide=document.getElementById("elasticity");
+    elastslide.addEventListener("mouseup", readElast, false);
+    ballsizeslide=document.getElementById("ballsize");
+    ballsizeslide.addEventListener("mouseup", readBallSize, false);
+
+    ballnumslide=document.getElementById("ballnum");
+    ballnumslide.addEventListener("mouseup", readBallNum, false);
 
     balls= new Array();
 }
@@ -196,4 +198,8 @@ function readElast(e){
 
 function readBallSize(e){
     ballsize=document.getElementById("ballsize").value;
+}
+
+function readBallNum(e){
+    ballnum=document.getElementById("ballnum").value;
 }
