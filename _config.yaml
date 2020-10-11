@@ -1,0 +1,4 @@
+
+source: ../site/
+
+ignore_theme_config:  True
